@@ -1,0 +1,17 @@
+<%- include("top.ejs") %>
+  <div class="row">
+    <div class="col-2">
+      <a href="/customers" class="btn btn-primary">Gestão de clientes</a>
+    </div>
+    <% if(userProfile===2) { %>
+      <div class="col-2">
+        <a href="/users" class="btn btn-primary">Gestão de usuários</a>
+      </div>
+      <% } %>
+        <div class="col-2">
+          <form action="/logout" method="POST">
+            <input type="submit" value="Logout" class="btn btn-secondary">
+          </form>
+        </div>
+  </div>
+  <%- include("bottom.ejs") %>

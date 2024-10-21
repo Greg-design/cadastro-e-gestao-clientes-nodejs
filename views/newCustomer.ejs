@@ -1,0 +1,72 @@
+<%- include("top.ejs") %>
+  <p>Preencha os campos abaixo para cadastrar ou editar um cliente.</p>
+  <div class="col-6">
+    <form action="/customers/new" method="POST">
+      <div class="row mb-3">
+        <div class="form-group">
+          <label for="nome">Nome:</label>
+          <input type="text" name="nome" value="<%= customer.nome %>" class="form-control"
+            placeholder="Nome do cliente">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group">
+          <label for="cpf">CPF:</label>
+          <input type="text" name="cpf" value="<%= customer.cpf %>" class="form-control" placeholder="CPF do cliente">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="form-group">
+          <label for="cidade">Região:</label>
+          <div class="input-group">
+            <input type="text" name="cidade" value="<%= customer.cidade %>" class="form-control"
+              placeholder="Cidade do cliente">
+            <select id="uf" name="uf" value="<%= customer.uf %>" class="form-control">
+              <option>Selecione a UF:</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <input type="hidden" name="id" value="<%= customer._id %>" />
+
+      <p>
+        <input type="submit" value="Salvar" class="btn btn-primary">
+        <a href="/customers" class="btn btn-secondary">Cancelar</a>
+      </p>
+    </form>
+  </div>
+  <script>
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
+      .then(res => res.json())
+      .then(json => {
+        const ufsHtml = document.getElementById("uf")
+        const siglas = json.map(item => item.sigla).sort()
+        siglas.forEach(item => {
+          const opt = document.createElement("option")
+          opt.innerText = item
+          ufsHtml.add(opt)
+        })
+
+          <%
+          if (customer.uf) {
+            %>
+            ufsHtml.value = "<%= customer.uf %>"
+              <%
+          }
+        %>
+
+      })
+      .catch(error => alert(error))
+
+
+    if (window.location.search) {
+      const error = window.location.search.split("=")[1]
+      alert(decodeURI(error))
+    }
+
+
+  </script>
+  <%- include("bottom.ejs") %>

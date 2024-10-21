@@ -1,0 +1,65 @@
+<%- include("top.ejs") %>
+
+  <div class="alert alert-info">
+    <%= qtd %> clientes cadastrados
+  </div>
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <td>Nome</td>
+        <td>CPF</td>
+        <td>Ações</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% customers.forEach(item=> {
+        %>
+        <tr>
+          <td>
+            <a href="/customers/edit/<%= item._id %>" title="Editar">
+              <%= item.nome %>
+            </a>
+          </td>
+          <td>
+            <%= item.cpf %>
+          </td>
+          <td>
+            <a href="/customers/delete/<%= item._id %>" title="Excluir" class="btn btn-danger"
+              onclick="return confirm('Tem certeza que deseja Excluir?')">
+              <img src="/images/delete.png" alt="edição" width="24px">
+            </a>
+          </td>
+        </tr>
+        <% }) %>
+    </tbody>
+  </table>
+
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <% for(let i=1; i <=pagesQtd; i++) { if(page===i) { %>
+        <li class="page-item"><a class="page-link active" href="/customers/<%= i %>">
+            <%= i %>
+          </a></li>
+        <% } else { %>
+          <li class="page-item"><a class="page-link" href="/customers/<%= i %>">
+              <%= i %>
+            </a></li>
+          <% }} %>
+    </ul>
+  </nav>
+
+  <div class="row">
+    <div class="col-2">
+      <a href="/customers/new" class="btn btn-primary">Cadastrar novo</a>
+    </div>
+    <div class="col-2">
+      <a href="/index" class="btn btn-primary">Index</a>
+    </div>
+    <div class="col-2">
+      <form action="/logout" method="POST">
+        <input type="submit" value="Logout" class="btn btn-secondary">
+      </form>
+    </div>
+  </div>
+  <%- include("bottom.ejs") %>
